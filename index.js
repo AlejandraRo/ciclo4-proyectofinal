@@ -24,7 +24,7 @@ connection.once('open', () => console.log('DB Connected'));
 
 //Route path on proyect
 app.get('/', (req, res) => {
-  res.send('Proyect Managment App Mintic running with Azure Pipelines CI, now include tests');
+  res.send('Proyect Managment App Mintic running with Azure Pipelines CI, now include tests and test reports');
 });
 
 //Routes path on users
