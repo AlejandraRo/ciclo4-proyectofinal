@@ -15,8 +15,12 @@ app.use(cors());
 app.use(express.json());
 
 //Connection to mongodb Atlas with mongoose
-mongoose.connect(DB_ATLAS);
-mongoose.connection.once('open', () => console.log('DB Connected'));
+mongoose.connect(DB_ATLAS, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+const connection=mongoose.connection
+connection.once('open', () => console.log('DB Connected'));
 
 //Route path on proyect
 app.get('/', (req, res) => {
@@ -24,7 +28,7 @@ app.get('/', (req, res) => {
 });
 
 //Routes path on users
-// app.use('/users', userRoutes); ----------> //DESCOMENTAR CUANDO SE CREEN LOS CONTROLLERS Y LOS MODELS
+app.use('/users', userRoutes);
 
 //Routes path on proyects
 // app.use('/proyects', proyectRoutes); ----------> //DESCOMENTAR CUANDO SE CREEN LOS CONTROLLERS Y LOS MODELS
