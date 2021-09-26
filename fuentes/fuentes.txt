@@ -1,5 +1,0 @@
-MariaRoseroBranch
-fuentes Sprint 1.txt
-
-Fuentes usadas en el proyecto
-main
