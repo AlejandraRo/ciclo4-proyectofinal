@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 app.use('/users', userRoutes);
 
 //Routes path on proyects
-// app.use('/proyects', proyectRoutes); ----------> //DESCOMENTAR CUANDO SE CREEN LOS CONTROLLERS Y LOS MODELS
+app.use('/proyects', proyectRoutes);
 
 app.listen(PORT, () => {
   console.log(`app listening at port ${PORT}`);
