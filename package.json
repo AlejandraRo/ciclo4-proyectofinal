@@ -4,7 +4,7 @@
   "description": "Escribiendo un unit test de prueba",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test --reporter mocha-junit-reporter",
+    "test": "mocha",
     "start": "node index.js"
   },
   "author": "",
