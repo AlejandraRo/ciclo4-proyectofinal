@@ -239,3 +239,4 @@ _.msm
 # Windows shortcuts
 
 \*.lnk
+test-results.xml
