@@ -28,7 +28,7 @@ public class UserController {
     }
     @GetMapping("/UserEntity/{userId}")
     Optional<UserEntity> getUsers(@PathVariable String userId){
-        return UserRepository.findByuserId(userId);
+        return userRepository.findById(userId);
     }
 
 }
