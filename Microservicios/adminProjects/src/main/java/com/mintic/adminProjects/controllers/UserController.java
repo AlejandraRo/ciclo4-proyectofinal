@@ -27,6 +27,17 @@ public class UserController {
     @Autowired
     private ProjectRepository projectRepository;
 
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+
+        /*UserEntity newUser01=new UserEntity("006","Scrum master","Daniel Cadavid","Ingenieria electronica","3201245678",null,null,null,"daniel.cadavid","123");
+        UserEntity newUser02=new UserEntity("008","Director","Paula Sandoval","Ingenieria de software","3201232221",null,null,null,"pau.san","abc");
+
+        this.userRepository.save(newUser01);
+        this.userRepository.save(newUser02);*/
+
+    }
+
     //CREATE METHOD ------------------------
     
     @PostMapping("/newUsers")

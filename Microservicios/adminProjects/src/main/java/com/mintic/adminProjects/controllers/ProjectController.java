@@ -37,6 +37,14 @@ public class ProjectController {
     @Autowired
     ReportRepository reportRepository;
 
+    /*private final UserRepository userRepository;
+    private final ProjectRepository projectRepository;*/
+
+    public ProjectController(UserRepository userRepository, ProjectRepository projectRepository) {
+        this.userRepository = userRepository;
+        this.projectRepository = projectRepository;
+    } 
+
     //CREATE METHODS -------------------------------
 	
 	@PostMapping("/newProject")
@@ -58,9 +66,9 @@ public class ProjectController {
         return projectRepository.findAll();
     }
 
-    @GetMapping("/projects/{name}")
-	public ProjectEntity getProjectByName(@PathVariable String name) {
-		return projectRepository.findProjectByName(name);
+    @GetMapping("/projects/{id}")
+	public ProjectEntity getProjectByName(@PathVariable String id) {
+		return projectRepository.findProjectById(id);
 	}
 
     @GetMapping("/project/users/{idUser}")

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProjectRepository extends MongoRepository<ProjectEntity, String> {
-  public ProjectEntity findProjectByName(String name);
+  public ProjectEntity findProjectById(String name);
 }
