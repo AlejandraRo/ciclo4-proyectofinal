@@ -9,7 +9,7 @@ import java.util.Date;
 @Document("usuarios")
 public class UserEntity {
     @Id
-    private ObjectId userId;
+    private String userId;
 
     private String rol;
     private String nombre;
@@ -21,7 +21,10 @@ public class UserEntity {
     private String username;
     private String password;
 
-    public UserEntity(ObjectId userId, String rol, String nombre, String carrera, String celular, Date fecha_ingreso, Date createdAt, Date updatedAt, String username, String password){
+    public UserEntity() {
+    }
+
+    public UserEntity(String userId, String rol, String nombre, String carrera, String celular, Date fecha_ingreso, Date createdAt, Date updatedAt, String username, String password) {
         this.userId = userId;
         this.rol = rol;
         this.nombre = nombre;
@@ -32,6 +35,16 @@ public class UserEntity {
         this.updatedAt = updatedAt;
         this.username = username;
         this.password = password;
+    }
+    
+    
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getRol() {
@@ -78,24 +91,16 @@ public class UserEntity {
         return createdAt;
     }
 
-    public void setCreatedAt(Date created_at) {
-        this.createdAt = created_at;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updated_at) {
-        this.updatedAt = updated_at;
-    }
-
-    public ObjectId getUserId() {
-        return userId;
-    }
-
-    public void setUserId(ObjectId userId) {
-        this.userId = userId;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getUsername() {
@@ -113,4 +118,7 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    
+    
 }
