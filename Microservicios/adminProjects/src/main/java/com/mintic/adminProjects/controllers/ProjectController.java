@@ -9,12 +9,18 @@ import com.mintic.adminProjects.repositories.ReportRepository;
 import com.mintic.adminProjects.repositories.UserRepository;
 
 import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,10 +37,50 @@ public class ProjectController {
     @Autowired
     ReportRepository reportRepository;
 
+    //CREATE METHODS -------------------------------
+	
+	@PostMapping("/newProject")
+    ProjectEntity newProject(@RequestBody ProjectEntity project){
+		            
+        project.setFecha_inicial(new Date(0));
+        project.setFecha_final(new Date(0));
+        
+        project.setCreatedAt(new Date(0));
+        project.setUpdatedAt(new Date(0));
+        
+        return projectRepository.save(project);
+    }
+
+    //GET METHODS -------------------------------
+
     @GetMapping("/projects")
     List<ProjectEntity> getAllProjects() {
         return projectRepository.findAll();
     }
+
+    @GetMapping("/projects/{name}")
+	public ProjectEntity getProjectByName(@PathVariable String name) {
+		return projectRepository.findProjectByName(name);
+	}
+
+    @GetMapping("/project/users/{idUser}")
+    public List<ProjectEntity> getProjectByUser(@PathVariable String idUser){
+		List<ProjectEntity> allProjects = projectRepository.findAll();
+		
+		List<ProjectEntity> projectsByUser = new ArrayList<>();
+		
+		for(int i= 0; i<allProjects.size(); i++) {
+			Stream<String> Lider = allProjects.get(i).getLideres().stream().filter(f -> f.equals(idUser));
+			Stream<String> Estudiante = allProjects.get(i).getEstudiantes().stream().filter(f -> f.equals(idUser));
+			
+			if(Lider.count() > 0 || Estudiante.count() > 0) {
+				projectsByUser.add(allProjects.get(i));
+			}
+		}		
+		return projectsByUser;
+    }
+
+    //UPDATE METHODS -------------------------------
 
     @PutMapping("/projects/set-lider")
     public ResponseEntity setLider(@RequestBody SetUserDto setUserDto) {
@@ -64,7 +110,7 @@ public class ProjectController {
     }
 
     @PutMapping("/projects/reporte-avance/{proyectId}")
-    public ResponseEntity setReporte(@RequestBody SetUserDto setUserDto) {
+    public ResponseEntity<String> setReporte(@RequestBody SetUserDto setUserDto) {
         ProjectEntity project = projectRepository.findById(setUserDto.getProjectId()).orElse(null);
         UserEntity user = userRepository.findById(setUserDto.getUserId()).orElse(null);
         
@@ -79,9 +125,7 @@ public class ProjectController {
                 project.getReporte_avance().add(report);
                 projectRepository.save(project);
             }            
-
         }
-        
         return ResponseEntity.ok("Reporte agregado con éxito!");
     }
 

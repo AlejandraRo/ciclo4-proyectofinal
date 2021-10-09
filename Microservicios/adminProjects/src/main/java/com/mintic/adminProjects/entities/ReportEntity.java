@@ -20,18 +20,6 @@ public class ReportEntity {
 	private LocalDate updatedAt;
 	private String usuCrea;
 	
-	// public ReportEntity(String id, List<String> usuarios_id, String reporte, String estado, String fase,
-	// 		Date createdAt, Date updatedAt) {
-	// 	super();
-	// 	this.id = id;
-	// 	this.usuarios_id = usuarios_id;
-	// 	this.reporte = reporte;
-	// 	this.estado = estado;
-	// 	this.fase = fase;
-	// 	this.createdAt = createdAt;
-	// 	this.updatedAt = updatedAt;
-	// }
-
 	public ReportEntity(String id, String usuCrea, String reporte, String estado, String fase,
 			LocalDate createdAt, LocalDate updatedAt) {
 		super();
