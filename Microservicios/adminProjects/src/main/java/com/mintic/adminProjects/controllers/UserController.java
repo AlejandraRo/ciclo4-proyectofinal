@@ -12,37 +12,39 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
-
 public class UserController {
-    private final UserRepository userRepository;
-    private final ProjectRespository projectRespository;
 
-    public UserController(UserRepository userRepository, ProjectRespository projectRespository) {
-        this.userRepository = userRepository;
-        this.projectRespository = projectRespository;
-    }
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ProjectRespository projectRespository;
+
     @GetMapping("/users/{userId}")
-    Optional<UserEntity> getUsers(@PathVariable ObjectId userId){
+    Optional<UserEntity> getUsers(@PathVariable String userId) {
         return Optional.ofNullable(userRepository.findById(userId).orElse(null));
     }
 
-
     @GetMapping("/users")
-    List<UserEntity> getAllUsers(){
+    List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
 
     @GetMapping("/users/project/{projectId}")
-    List<UserEntity> getProjectUsers(@PathVariable ObjectId projectId){
-        Optional<ProjectEntity> proyectos= projectRespository.findById(projectId);
+    List<UserEntity> getProjectUsers(@PathVariable String projectId) {
+        Optional<ProjectEntity> proyectos = projectRespository.findById(projectId);
         ProjectEntity proyecto = proyectos.get();
-        List<UserEntity> retorno= new ArrayList<>();
-        for (ObjectId id : proyecto.getUsuarios()){
-            Optional<UserEntity> usuario=userRepository.findById(id);
+        List<UserEntity> retorno = new ArrayList<>();
+
+        proyecto.getEstudiantes().stream().map(id -> userRepository.findById(id)).forEachOrdered(usuario -> {
             retorno.add(usuario.get());
-        }
+        });
+
+        proyecto.getLideres().stream().map(id -> userRepository.findById(id)).forEachOrdered(usuario -> {
+            retorno.add(usuario.get());
+        });
         return retorno;
     }
 
