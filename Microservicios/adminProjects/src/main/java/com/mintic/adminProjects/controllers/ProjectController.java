@@ -31,9 +31,12 @@ public class ProjectController {
         UserId.setPassword(UserId.getPassword());
         userRepository.save(UserId);
         project.setFecha_inicial(new Date());
+        project.setFecha_final(new Date());
+        project.setCreatedAt(new Date());
+        project.setUpdatedAt(new Date());
         return projectRepository.save(project);
     }
-    @GetMapping("/ProjectEntity/{iduser}")
+    @GetMapping("/ProjectEntity/{idUser}")
     List<ProjectEntity> userProject(@PathVariable String idUser){
         List<ProjectEntity> projectUser=projectRepository.findByIdUser(idUser);
         return projectUser;
