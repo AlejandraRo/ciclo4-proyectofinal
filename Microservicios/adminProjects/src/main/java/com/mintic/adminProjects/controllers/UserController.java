@@ -2,9 +2,8 @@ package com.mintic.adminProjects.controllers;
 
 import com.mintic.adminProjects.entities.ProjectEntity;
 import com.mintic.adminProjects.entities.UserEntity;
-import com.mintic.adminProjects.repositories.ProjectRespository;
+import com.mintic.adminProjects.repositories.ProjectRepository;
 import com.mintic.adminProjects.repositories.UserRepository;
-import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +19,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private ProjectRespository projectRespository;
+    private ProjectRepository projectRepository;
 
     @GetMapping("/users/{userId}")
     Optional<UserEntity> getUsers(@PathVariable String userId) {
@@ -34,7 +33,7 @@ public class UserController {
 
     @GetMapping("/users/project/{projectId}")
     List<UserEntity> getProjectUsers(@PathVariable String projectId) {
-        Optional<ProjectEntity> proyectos = projectRespository.findById(projectId);
+        Optional<ProjectEntity> proyectos = projectRepository.findById(projectId);
         ProjectEntity proyecto = proyectos.get();
         List<UserEntity> retorno = new ArrayList<>();
 

@@ -2,7 +2,6 @@
 package com.mintic.adminProjects.dto.request;
 
 import java.io.Serializable;
-import org.bson.types.ObjectId;
 
 public class SetUserDto implements Serializable {
     private String projectId;

@@ -8,6 +8,7 @@ public class AdminProjectsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AdminProjectsApplication.class, args);
+		System.out.println("ejecutando en el puerto 8080");
 	}
 
 }

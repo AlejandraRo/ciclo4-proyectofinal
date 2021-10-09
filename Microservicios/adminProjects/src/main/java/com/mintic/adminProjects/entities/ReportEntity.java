@@ -1,45 +1,68 @@
 package com.mintic.adminProjects.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document("proyectos")
 public class ReportEntity {
 	
 	@Id
-	private ObjectId id;
+	private String id;
 	
-	private List<ObjectId> usuarios_id;
+	private List<String> usuarios_id;
 	private String reporte;
 	private String estado;
 	private String fase;
-	private Date createdAt;
-	private Date updatedAt;
+	private LocalDate createdAt;
+	private LocalDate updatedAt;
+	private String usuCrea;
 	
-	public ReportEntity(ObjectId id, List<ObjectId> usuarios_id, String reporte, String estado, String fase,
-			Date createdAt, Date updatedAt) {
+	// public ReportEntity(String id, List<String> usuarios_id, String reporte, String estado, String fase,
+	// 		Date createdAt, Date updatedAt) {
+	// 	super();
+	// 	this.id = id;
+	// 	this.usuarios_id = usuarios_id;
+	// 	this.reporte = reporte;
+	// 	this.estado = estado;
+	// 	this.fase = fase;
+	// 	this.createdAt = createdAt;
+	// 	this.updatedAt = updatedAt;
+	// }
+
+	public ReportEntity(String id, String usuCrea, String reporte, String estado, String fase,
+			LocalDate createdAt, LocalDate updatedAt) {
 		super();
 		this.id = id;
-		this.usuarios_id = usuarios_id;
+		//this.usuarios_id = usuarios_id;
 		this.reporte = reporte;
 		this.estado = estado;
 		this.fase = fase;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.usuCrea = usuCrea;
 	}
 
-	public ObjectId getId() {
+	public String getUsuCrea() {
+		return usuCrea;
+	}
+
+	public void setUsuCrea(String usuCrea) {
+		this.usuCrea = usuCrea;
+	}
+
+	public String getId() {
 		return id;
 	}
-	public void setId(ObjectId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	public List<ObjectId> getUsuarios_id() {
+	public List<String> getUsuarios_id() {
 		return usuarios_id;
 	}
-	public void setUsuarios_id(List<ObjectId> usuarios_id) {
+	public void setUsuarios_id(List<String> usuarios_id) {
 		this.usuarios_id = usuarios_id;
 	}
 	public String getReporte() {
@@ -60,16 +83,16 @@ public class ReportEntity {
 	public void setFase(String fase) {
 		this.fase = fase;
 	}
-	public Date getCreatedAt() {
+	public LocalDate getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
 	}
-	public Date getUpdatedAt() {
+	public LocalDate getUpdatedAt() {
 		return updatedAt;
 	}
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDate updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 }
