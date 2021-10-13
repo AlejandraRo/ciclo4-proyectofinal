@@ -1,0 +1,8 @@
+.button {
+    padding: 10px;
+    background-color: aquamarine;
+}
+
+.button:hover {
+    background-color: rgba(127, 255, 212, 0.829);
+}
