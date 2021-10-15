@@ -10,10 +10,10 @@ function App() {
     <Router>
       {/* Barra de navagación */}
       <div>
-        <Link to="/">Login</Link>
-        <Link to="/signup">Signup</Link>
-        <Link to="/projects">Projects</Link>
-        <Link to="/users">Users</Link>
+        <Link to="/">Iniciar sesión |</Link>
+        <Link to="/signup"> Registrarse |</Link>
+        <Link to="/projects"> Proyectos |</Link>
+        <Link to="/users"> Usuarios</Link>
       </div>
       {/* Rutas */}
       <Switch>

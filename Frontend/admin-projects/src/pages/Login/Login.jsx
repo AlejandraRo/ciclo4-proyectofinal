@@ -4,7 +4,7 @@ import { Button } from "../../components/Button/Button";
 export function Login() {
   return (
     <div>
-      LOGIN
+      Iniciar sesión
       <Button label="Ok" />
     </div>
   );
