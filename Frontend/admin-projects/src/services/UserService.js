@@ -10,4 +10,22 @@ export const userService = {
     });
     return await response.json();
   },
+  findAllStudents: async () => {
+    const response = await fetch(API + "/students", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return await response.json();
+  },
+  findAllLeaders: async () => {
+    const response = await fetch(API + "/leaders", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return await response.json();
+  },
 };

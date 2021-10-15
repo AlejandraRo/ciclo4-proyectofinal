@@ -26,4 +26,16 @@ router.route('/update/:id').put((req, res) => {
         .catch(err => res.status(400).json('No se ha podido actualizar el usuario! ' + err))
 })
 
+router.route('/students').get((req, res) => {
+    User.find({rol: "Estudiante"})
+        .then(allUsers => res.json(allUsers))
+        .catch(err => res.status(400).json('No ha sido posible encontrar los usuarios! ' + err))
+})
+
+router.route('/leaders').get((req, res) => {
+    User.find({rol: {$ne: "Estudiante"}})
+        .then(allUsers => res.json(allUsers))
+        .catch(err => res.status(400).json('No ha sido posible encontrar los usuarios! ' + err))
+})
+
 module.exports = router

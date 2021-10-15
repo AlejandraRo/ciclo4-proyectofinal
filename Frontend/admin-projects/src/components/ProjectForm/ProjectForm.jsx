@@ -8,6 +8,10 @@ import { userService } from "../../services/UserService";
 import { Link } from "react-router-dom";
 
 export function ProjectForm() {
+  // ********************************************
+  // CONSTANTES FORMULARIO
+  // ********************************************
+
   const [name, setName] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [presupuesto, setPresupuesto] = useState(0);
@@ -15,26 +19,75 @@ export function ProjectForm() {
   const [objetivosEspecificos, setObjetivosEspecificos] = useState([]);
   const [fechaInicial, setFechaInicial] = useState(new Date());
   const [fechaFinal, setFechaFinal] = useState(new Date());
-  const [lideres, setLideres] = useState([]);
-  const [estudiantes, setEstudiantes] = useState([]);
+  const [lideresId, setLideresId] = useState([]);
+  const [estudiantesId, setEstudiantesId] = useState([]);
   const [reporteAvance, setReporteAvance] = useState([]);
   const [createdAt] = useState(new Date());
   const [updatedAt] = useState(new Date());
-  const [estado, setEstado] = useState("Inicio");
+  const [estado, setEstado] = useState("Inicial");
 
+  // ********************************************
+  // CONSTANTES AUXILIARES
+  // ********************************************
+
+  // Objetivos específicos
   const [objetivoEspeficicoActual, setObjetivoEspeficicoActual] = useState("");
-  const [selectedLider, setSelectedLider] = useState("");
-  const [listaLideres, setListaLideres] = useState([]);
 
+  // Líderes
+  const [selectedLiderId, setSelectedLiderId] = useState("");
+  const [listaLideres, setListaLideres] = useState([]);
+  const [selectedLideres, setSelectedLideres] = useState([]);
+
+  // Estudiantes
+  const [selectedEstudianteId, setSelectedEstudianteId] = useState("");
+  const [listaEstudiantes, setListaEstudiantes] = useState([]);
+  const [selectedEstudiantes, setSelectedEstudiantes] = useState([]);
+
+  // ********************************************
+  // EFECTOS
+  // ********************************************
+
+  // Consultar líderes disponibles
   useEffect(() => {
     const fetchLideres = async () => {
-      const response = await userService.findAll();
+      const response = await userService.findAllLeaders();
       setListaLideres(response);
-      setSelectedLider(response[0]._id);
+      setSelectedLiderId(response[0]._id);
     };
     fetchLideres();
   }, []);
 
+  // Actualizar lideres seleccionados
+  useEffect(() => {
+    setSelectedLideres(
+      listaLideres.filter((lider) => lideresId.includes(lider._id))
+    );
+  }, [lideresId, listaLideres]);
+
+  // Consultar estudiantes disponibles
+  useEffect(() => {
+    const fetchEstudiantes = async () => {
+      const response = await userService.findAllStudents();
+      setListaEstudiantes(response);
+      setSelectedEstudianteId(response[0]._id);
+    };
+    fetchEstudiantes();
+  }, []);
+
+  // Actualizar estudiantes seleccionados
+  useEffect(() => {
+    setSelectedEstudiantes(
+      listaEstudiantes.filter((estudiante) =>
+        estudiantesId.includes(estudiante._id)
+      )
+    );
+  }, [estudiantesId, listaEstudiantes]);
+
+  // ********************************************
+  // FUNCIONES
+  // ********************************************
+
+  // Objetivos
   const agregarObjetivoEspecifico = (event) => {
     event.preventDefault();
     setObjetivosEspecificos((objetivos) => [
@@ -44,12 +97,50 @@ export function ProjectForm() {
     setObjetivoEspeficicoActual("");
   };
 
+  // Líderes
   const agregarLider = (liderId) => {
-    setLideres((lideres) => [...lideres, liderId]);
+    if (selectedLideres.map((lider) => lider._id).includes(liderId)) return;
+    setLideresId((lideresId) => [...lideresId, liderId]);
   };
+
+  // Estudiantes
+  const agregarEstudiante = (estudianteId) => {
+    if (
+      selectedEstudiantes
+        .map((estudiante) => estudiante._id)
+        .includes(estudianteId)
+    )
+      return;
+    setEstudiantesId((estudiantesId) => [...estudiantesId, estudianteId]);
+  };
+
+  // ********************************************
+  // SUBMIT
+  // ********************************************
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (objetivosEspecificos.length < 1) {
+      alert("Debe ingresar por lo menos un objetivo específico");
+      return;
+    }
+
+    if (lideresId.length < 1) {
+      alert("Debe seleccionar por lo menos un líder de proyecto");
+      return;
+    }
+
+    if (estudiantesId.length < 1) {
+      alert("Debe seleccionar por lo menos un estudiante participante");
+      return;
+    }
+
+    if (fechaFinal < fechaInicial) {
+      alert("La fecha de inicio debe ir antes de la fecha de fin");
+      return;
+    }
+
     const proyecto = {
       name,
       descripcion,
@@ -58,8 +149,8 @@ export function ProjectForm() {
       objetivos_especificos: objetivosEspecificos,
       fecha_inicial: fechaInicial,
       fecha_final: fechaFinal,
-      lideres,
-      estudiantes,
+      lideres: lideresId,
+      estudiantes: estudiantesId,
       reporte_avance: reporteAvance,
       createdAt,
       updatedAt,
@@ -68,6 +159,7 @@ export function ProjectForm() {
     console.log(proyecto);
     const response = await projectService.new(proyecto);
     console.log(response);
+    alert("Proyecto registrado con éxito");
   };
 
   return (
@@ -146,13 +238,13 @@ export function ProjectForm() {
         <div>
           <label>Líderes</label>
           <ul>
-            {lideres.map((liderId, index) => (
-              <li key={liderId + index.toString()}>{liderId}</li>
+            {selectedLideres.map((lider) => (
+              <li key={lider._id}>{lider.nombre}</li>
             ))}
           </ul>
           <select
-            value={selectedLider}
-            onChange={(e) => setSelectedLider(e.target.value)}
+            value={selectedLiderId}
+            onChange={(e) => setSelectedLiderId(e.target.value)}
           >
             {listaLideres.map((lider) => (
               <option key={lider._id} value={lider._id}>
@@ -163,13 +255,39 @@ export function ProjectForm() {
           <button
             onClick={(e) => {
               e.preventDefault();
-              agregarLider(selectedLider);
+              agregarLider(selectedLiderId);
             }}
           >
             Agregar líder
           </button>
         </div>
         {/* Estudiantes */}
+        <div>
+          <label>Estudiantes</label>
+          <ul>
+            {selectedEstudiantes.map((estudiante) => (
+              <li key={estudiante._id}>{estudiante.nombre}</li>
+            ))}
+          </ul>
+          <select
+            value={selectedEstudianteId}
+            onChange={(e) => setSelectedEstudianteId(e.target.value)}
+          >
+            {listaEstudiantes.map((estudiante) => (
+              <option key={estudiante._id} value={estudiante._id}>
+                {estudiante.nombre}
+              </option>
+            ))}
+          </select>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              agregarEstudiante(selectedEstudianteId);
+            }}
+          >
+            Agregar estudiante
+          </button>
+        </div>
         {/* Reportes avance */}
         <button>Registrar</button>
       </form>

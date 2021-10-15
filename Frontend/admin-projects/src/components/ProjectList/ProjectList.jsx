@@ -1,13 +1,27 @@
 //import styles from './ProjectList.module.scss';
 
+// Elementos de React
 import { useEffect, useState } from "react";
+// Servicios
 import { projectService } from "../../services/ProjectService";
+import { userService } from "../../services/UserService";
+// Otros elementos
 import { Link } from "react-router-dom";
 import { ProjectCard } from "../../components/ProjectCard/ProjectCard";
 
 export function ProjectList() {
-  const [projects, setProjects] = useState([]);
+  // ********************************************
+  // CONSTANTES
+  // ********************************************
 
+  const [projects, setProjects] = useState([]);
+  const [users, setUsers] = useState([]);
+
+  // ********************************************
+  // EFECTOS
+  // ********************************************
+
+  // Consultar proyectos
   useEffect(() => {
     const fetchData = async () => {
       const response = await projectService.findAll();
@@ -15,6 +29,16 @@ export function ProjectList() {
     };
     fetchData();
   }, []);
+
+  // Consultar usuarios
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await userService.findAll();
+      setUsers(response);
+    };
+    fetchUsers();
+  }, []);
+
   return (
     <div>
       <Link to="/projects/new">Nuevo proyecto</Link>
@@ -27,8 +51,12 @@ export function ProjectList() {
           presupuesto={project.presupuesto}
           objetivoGeneral={project.objetivo_general}
           objetivosEspecificos={project.objetivos_especificos}
-          lideres={project.lideres}
-          estudiantes={project.estudiantes}
+          lideres={users
+            .filter((user) => project.lideres.includes(user._id))
+            .map((user) => user.nombre)}
+          estudiantes={users
+            .filter((user) => project.estudiantes.includes(user._id))
+            .map((user) => user.nombre)}
           fechaInicial={project.fecha_inicial}
           fechaFinal={project.fecha_final}
         />
