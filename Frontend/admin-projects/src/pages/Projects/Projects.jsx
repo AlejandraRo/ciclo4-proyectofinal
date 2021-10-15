@@ -1,6 +1,21 @@
 //import styles from './Projects.module.css';
 
-export function Projects() {
+import { Switch, Route } from "react-router-dom";
+import { ProjectList } from "../../components/ProjectList/ProjectList";
+import { ProjectForm } from "../../components/ProjectForm/ProjectForm";
 
-    return <div>Projects</div>;
+export function Projects() {
+  return (
+    <div>
+      <h1>Proyectos</h1>
+      <Switch>
+        <Route path="/projects/new">
+          <ProjectForm />
+        </Route>
+        <Route path="/projects">
+          <ProjectList />
+        </Route>
+      </Switch>
+    </div>
+  );
 }

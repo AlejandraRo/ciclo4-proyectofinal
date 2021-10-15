@@ -2,5 +2,5 @@
 
 export function Users() {
 
-    return <div>Users</div>;
+    return <div>Usuarios</div>;
 }
