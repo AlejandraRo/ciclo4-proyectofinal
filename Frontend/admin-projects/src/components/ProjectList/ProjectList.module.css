@@ -1,0 +1,13 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btnNewProject {
+  background-color: #13537e;
+  color: white;
+  text-decoration: none;
+  padding: 12px;
+  margin: 30px;
+}

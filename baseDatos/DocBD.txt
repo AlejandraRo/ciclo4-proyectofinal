@@ -1,1 +1,0 @@
-Para el desarollo de la app usaremos el sistema de base de datos NoSQL, MongoDB. 
