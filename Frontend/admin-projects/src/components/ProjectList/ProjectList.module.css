@@ -1,0 +1,36 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 400px);
+  gap: 40px;
+  padding: 40px;
+  justify-content: center;
+}
+
+.centerButton {
+  display: grid;
+  justify-content: center;
+}
+
+.button {
+  padding: 10px;
+  background-color: #2980b9;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  padding: 12px;
+  margin: 20px 8px 8px 8px;
+  width: 140px;
+  text-decoration: none;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #13537e;
+}
+
+@media (max-width: 920px) {
+  .container {
+    grid-template-columns: 100%;
+  }
+}
