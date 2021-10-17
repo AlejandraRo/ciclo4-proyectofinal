@@ -1,43 +1,38 @@
 //import styles from './ProjectList.module.scss';
 
-// Elementos de React
-import { useEffect, useState } from "react";
-// Servicios
-import { projectService } from "../../services/ProjectService";
-import { userService } from "../../services/UserService";
+// GraphQL
+import { useQuery } from "@apollo/client";
+import { GET_PROJECTS, GET_USERS } from "../../graphql/Queries";
+
 // Otros elementos
 import { Link } from "react-router-dom";
 import { ProjectCard } from "../../components/ProjectCard/ProjectCard";
 
 export function ProjectList() {
   // ********************************************
-  // CONSTANTES
+  // QUERIES GRAPHQL
   // ********************************************
+  const {
+    loading: projectsLoading,
+    error: projectsError,
+    data: projectsData,
+  } = useQuery(GET_PROJECTS);
 
-  const [projects, setProjects] = useState([]);
-  const [users, setUsers] = useState([]);
+  const {
+    loading: usersLoading,
+    error: usersError,
+    data: usersData,
+  } = useQuery(GET_USERS);
+
+  const projects = projectsData?.projects;
+  const users = usersData?.users;
 
   // ********************************************
-  // EFECTOS
+  // CARGA Y ERRORES
   // ********************************************
-
-  // Consultar proyectos
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await projectService.findAll();
-      setProjects(response);
-    };
-    fetchData();
-  }, []);
-
-  // Consultar usuarios
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await userService.findAll();
-      setUsers(response);
-    };
-    fetchUsers();
-  }, []);
+  if (projectsLoading || usersLoading) return <p>Loading ...</p>;
+  if (projectsError || usersError)
+    return <p>Error: {projectsError ? projectsError : usersError}</p>;
 
   return (
     <div>
@@ -45,6 +40,7 @@ export function ProjectList() {
       {projects.map((project) => (
         <ProjectCard
           key={project._id}
+          _id={project._id}
           nombre={project.name}
           estado={project.estado}
           descripcion={project.descripcion}

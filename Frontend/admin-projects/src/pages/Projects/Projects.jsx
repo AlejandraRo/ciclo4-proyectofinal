@@ -3,6 +3,7 @@
 import { Switch, Route } from "react-router-dom";
 import { ProjectList } from "../../components/ProjectList/ProjectList";
 import { ProjectForm } from "../../components/ProjectForm/ProjectForm";
+import { ProjectEdit } from "../../components/ProjectEdit/ProjectEdit";
 
 export function Projects() {
   return (
@@ -11,6 +12,9 @@ export function Projects() {
       <Switch>
         <Route path="/projects/new">
           <ProjectForm />
+        </Route>
+        <Route path="/projects/edit/:projectId">
+          <ProjectEdit />
         </Route>
         <Route path="/projects">
           <ProjectList />

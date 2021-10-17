@@ -1,6 +1,11 @@
+import { Link } from "react-router-dom";
 import styles from "./ProjectCard.module.css";
 
+import { useMutation } from "@apollo/client";
+import { DELETE_PROJECT } from "../../graphql/Mutations";
+
 export function ProjectCard({
+  _id,
   nombre,
   estado,
   descripcion,
@@ -10,8 +15,14 @@ export function ProjectCard({
   lideres,
   estudiantes,
   fechaInicial,
-  fechaFinal
+  fechaFinal,
 }) {
+  const [deleteProject] = useMutation(DELETE_PROJECT);
+  const deleteProjectById = (id) => {
+    deleteProject({ variables: { _id: id } });
+    alert("Proyecto eliminado con éxito");
+  };
+
   return (
     <div className={styles.card}>
       <div>
@@ -59,13 +70,15 @@ export function ProjectCard({
         </ul>
       </div>
       <div>
-          <strong>Fecha inicial: </strong>
-          <span>{fechaInicial.split("T")[0]}</span>
+        <strong>Fecha inicial: </strong>
+        <span>{fechaInicial.split("T")[0]}</span>
       </div>
       <div>
-          <strong>Fecha Final: </strong>
-          <span>{fechaFinal.split("T")[0]}</span>
+        <strong>Fecha Final: </strong>
+        <span>{fechaFinal.split("T")[0]}</span>
       </div>
+      <Link to={"/projects/edit/" + _id}>Editar</Link>
+      <button onClick={() => deleteProjectById(_id)}>Eliminar</button>
     </div>
   );
 }
