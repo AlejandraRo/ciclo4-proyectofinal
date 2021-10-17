@@ -1,8 +1,14 @@
 .button {
     padding: 10px;
-    background-color: aquamarine;
-}
-
-.button:hover {
-    background-color: rgba(127, 255, 212, 0.829);
-}
+    background-color: #2980b9;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    padding: 12px;
+    margin: 20px 8px 8px 8px;
+    width: 80px;
+  }
+  
+  .button:hover {
+    background-color: #13537e;
+  }

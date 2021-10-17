@@ -1,19 +1,31 @@
-//import styles from './ProjectForm.module.css';
+//import styles from './ProjectEdit.module.css';
 
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
 // GraphQL
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_STUDENTS, GET_LEADERS } from "../../graphql/Queries";
-import { ADD_PROJECT } from "../../graphql/Mutations";
+import {
+  GET_STUDENTS,
+  GET_LEADERS,
+  GET_PROJECT_BY_ID,
+} from "../../graphql/Queries";
+import { UPDATE_PROJECT } from "../../graphql/Mutations";
 
 // Otros elementos
 import { Link } from "react-router-dom";
 
-export function ProjectForm() {
+export function ProjectEdit() {
+  const { projectId } = useParams();
+
   // ********************************************
   // QUERIES GRAPHQL
   // ********************************************
+  const {
+    loading: selectedProjectLoading,
+    error: selectedProjectError,
+    data: selectedProjectData,
+  } = useQuery(GET_PROJECT_BY_ID, { variables: { _id: projectId } });
 
   const {
     loading: leadersLoading,
@@ -31,6 +43,7 @@ export function ProjectForm() {
   // CONSTANTES FORMULARIO
   // ********************************************
 
+  const [_id, set_Id] = useState("");
   const [name, setName] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [presupuesto, setPresupuesto] = useState(0);
@@ -40,7 +53,7 @@ export function ProjectForm() {
   const [fechaFinal, setFechaFinal] = useState(new Date());
   const [lideresId, setLideresId] = useState([]);
   const [estudiantesId, setEstudiantesId] = useState([]);
-  const [estado] = useState("Inicial");
+  const [estado, setEstado] = useState("Inicial");
 
   // ********************************************
   // CONSTANTES AUXILIARES
@@ -95,6 +108,24 @@ export function ProjectForm() {
     );
   }, [estudiantesId, listaEstudiantes]);
 
+  // Actualizar campos con los valores del proyecto seleccionado
+  useEffect(() => {
+    if (!selectedProjectLoading) {
+      const selectedProject = selectedProjectData.project;
+      set_Id(selectedProject._id);
+      setName(selectedProject.name);
+      setDescripcion(selectedProject.descripcion);
+      setPresupuesto(selectedProject.presupuesto);
+      setObjetivoGeneral(selectedProject.objetivo_general);
+      setObjetivosEspecificos(selectedProject.objetivos_especificos);
+      setFechaInicial(selectedProject.fecha_inicial);
+      setFechaFinal(selectedProject.fecha_final);
+      setLideresId(selectedProject.lideres);
+      setEstudiantesId(selectedProject.estudiantes);
+      setEstado(selectedProject.estado);
+    }
+  }, [selectedProjectLoading, selectedProjectData]);
+
   // ********************************************
   // FUNCIONES
   // ********************************************
@@ -128,7 +159,7 @@ export function ProjectForm() {
 
   // Registrar proyecto
   const [addProject, { loading: addLoading, error: addError }] =
-    useMutation(ADD_PROJECT);
+    useMutation(UPDATE_PROJECT);
 
   // ********************************************
   // SUBMIT
@@ -158,6 +189,7 @@ export function ProjectForm() {
     }
 
     const proyecto = {
+      _id,
       name,
       descripcion,
       presupuesto: parseInt(presupuesto),
@@ -170,15 +202,25 @@ export function ProjectForm() {
       estado,
     };
     addProject({ variables: proyecto });
-    alert("Proyecto registrado con éxito");
+    alert("Proyecto actualizado con éxito");
   };
 
   // ********************************************
   // CARGA Y ERRORES
   // ********************************************
-  if (studentsLoading || leadersLoading) return <p>Loading ...</p>;
-  if (studentsError || leadersError)
-    return <p>Error: {studentsError ? studentsError : leadersError}</p>;
+  if (studentsLoading || leadersLoading || selectedProjectLoading)
+    return <p>Loading ...</p>;
+  if (studentsError || leadersError || selectedProjectError)
+    return (
+      <p>
+        Error:{" "}
+        {studentsError
+          ? studentsError.message
+          : leadersError
+          ? leadersError.message
+          : selectedProjectError.message}
+      </p>
+    );
   if (addLoading) return "Submitting...";
   if (addError) return `Submission error! ${addError.message}`;
 
@@ -308,7 +350,14 @@ export function ProjectForm() {
             Agregar estudiante
           </button>
         </div>
-        {/* Reportes avance */}
+        <div>
+          <label>Estado</label>
+          <select value={estado} onChange={(e) => setEstado(e.target.value)}>
+            <option value="Inicial">Inicial</option>
+            <option value="Avanzado">Avanzado</option>
+            <option value="Finalizado">Finalizado</option>
+          </select>
+        </div>
         <button>Registrar</button>
       </form>
     </div>

@@ -3,6 +3,7 @@
 import { Switch, Route } from "react-router-dom";
 import { ProjectList } from "../../components/ProjectList/ProjectList";
 import { ProjectForm } from "../../components/ProjectForm/ProjectForm";
+import { ProjectEdit } from "../../components/ProjectEdit/ProjectEdit";
 
 export function Projects() {
   return (
@@ -13,7 +14,7 @@ export function Projects() {
           <ProjectForm />
         </Route>
         <Route path="/projects/edit/:projectId">
-          <ProjectForm />
+          <ProjectEdit />
         </Route>
         <Route path="/projects">
           <ProjectList />

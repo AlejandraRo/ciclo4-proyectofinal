@@ -58,8 +58,8 @@ export const GET_LEADERS = gql`
 `;
 
 export const GET_PROJECT_BY_ID = gql`
-  query project {
-    project {
+  query project($_id: String) {
+    project(_id: $_id) {
       _id
       name
       descripcion

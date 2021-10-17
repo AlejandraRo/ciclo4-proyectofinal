@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const graphqlHTTP = require("express-graphql").graphqlHTTP;
 
 const userRoutes = require("./src/controllers/user.controller");
 const proyectRoutes = require("./src/controllers/proyect.controller");
@@ -13,6 +14,13 @@ const DB_ATLAS = process.env.ATLAS_DB_CONNECTION;
 
 app.use(cors());
 app.use(express.json());
+app.use(
+  "/graphiql",
+  graphqlHTTP({
+    schema: require("./src/graphql/schema"),
+    graphiql: true,
+  })
+);
 
 //Connection to mongodb Atlas with mongoose
 mongoose.connect(DB_ATLAS, {
