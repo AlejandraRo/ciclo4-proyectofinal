@@ -1,4 +1,4 @@
-//import styles from './ProjectEdit.module.css';
+import styles from "./ProjectEdit.module.css";
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
@@ -225,141 +225,175 @@ export function ProjectEdit() {
   if (addError) return `Submission error! ${addError.message}`;
 
   return (
-    <div>
-      <Link to="/projects">Regresar</Link>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Nombre</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Descripción</label>
-          <input
-            type="text"
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Presupuesto</label>
-          <input
-            type="number"
-            min="0"
-            value={presupuesto}
-            onChange={(e) => setPresupuesto(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Objetivo general</label>
-          <input
-            type="text"
-            value={objetivoGeneral}
-            onChange={(e) => setObjetivoGeneral(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Objetivos específicos</label>
-          <ul>
-            {objetivosEspecificos.map((objetivo, index) => (
-              <li key={objetivo + index.toString()}>{objetivo}</li>
-            ))}
-          </ul>
-          <input
-            type="text"
-            value={objetivoEspeficicoActual}
-            onChange={(e) => setObjetivoEspeficicoActual(e.target.value)}
-          />
-          <button onClick={agregarObjetivoEspecifico}>Agregar objetivo</button>
-        </div>
-        <div>
-          <label>Fecha inicial</label>
-          <input
-            type="date"
-            value={fechaInicial}
-            onChange={(e) => setFechaInicial(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Fecha final</label>
-          <input
-            type="date"
-            value={fechaFinal}
-            onChange={(e) => setFechaFinal(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Líderes</label>
-          <ul>
-            {selectedLideres.map((lider) => (
-              <li key={lider._id}>{lider.nombre}</li>
-            ))}
-          </ul>
-          <select
-            value={selectedLiderId}
-            onChange={(e) => setSelectedLiderId(e.target.value)}
-          >
-            {listaLideres.map((lider) => (
-              <option key={lider._id} value={lider._id}>
-                {lider.nombre}
-              </option>
-            ))}
-          </select>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              agregarLider(selectedLiderId);
-            }}
-          >
-            Agregar líder
-          </button>
-        </div>
-        {/* Estudiantes */}
-        <div>
-          <label>Estudiantes</label>
-          <ul>
-            {selectedEstudiantes.map((estudiante) => (
-              <li key={estudiante._id}>{estudiante.nombre}</li>
-            ))}
-          </ul>
-          <select
-            value={selectedEstudianteId}
-            onChange={(e) => setSelectedEstudianteId(e.target.value)}
-          >
-            {listaEstudiantes.map((estudiante) => (
-              <option key={estudiante._id} value={estudiante._id}>
-                {estudiante.nombre}
-              </option>
-            ))}
-          </select>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              agregarEstudiante(selectedEstudianteId);
-            }}
-          >
-            Agregar estudiante
-          </button>
-        </div>
-        <div>
-          <label>Estado</label>
-          <select value={estado} onChange={(e) => setEstado(e.target.value)}>
-            <option value="Inicial">Inicial</option>
-            <option value="Avanzado">Avanzado</option>
-            <option value="Finalizado">Finalizado</option>
-          </select>
-        </div>
-        <button>Registrar</button>
-      </form>
+    <div className={styles.container}>
+      <div className={styles.centerButton}>
+        <Link className={styles.button} to="/projects">
+          Regresar
+        </Link>
+      </div>
+      <div className={styles.centerForm}>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div>
+            <label className={styles.label}>Nombre</label>
+            <input
+              className={styles.input}
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className={styles.label}>Descripción</label>
+            <input
+              className={styles.input}
+              type="text"
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className={styles.label}>Presupuesto</label>
+            <input
+              className={styles.input}
+              type="number"
+              min="0"
+              value={presupuesto}
+              onChange={(e) => setPresupuesto(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className={styles.label}>Objetivo general</label>
+            <input
+              className={styles.input}
+              type="text"
+              value={objetivoGeneral}
+              onChange={(e) => setObjetivoGeneral(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className={styles.label}>Objetivos específicos</label>
+            <ul>
+              {objetivosEspecificos.map((objetivo, index) => (
+                <li key={objetivo + index.toString()}>{objetivo}</li>
+              ))}
+            </ul>
+            <input
+              className={styles.input}
+              type="text"
+              value={objetivoEspeficicoActual}
+              onChange={(e) => setObjetivoEspeficicoActual(e.target.value)}
+            />
+            <div className={styles.buttonContainer}>
+              <button
+                className={styles.objetivoButton}
+                onClick={agregarObjetivoEspecifico}
+              >
+                Agregar objetivo
+              </button>
+            </div>
+          </div>
+          <div>
+            <label className={styles.label}>Fecha inicial</label>
+            <input
+              className={styles.input}
+              type="date"
+              value={fechaInicial}
+              onChange={(e) => setFechaInicial(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className={styles.label}>Fecha final</label>
+            <input
+              className={styles.input}
+              type="date"
+              value={fechaFinal}
+              onChange={(e) => setFechaFinal(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className={styles.label}>Líderes</label>
+            <ul>
+              {selectedLideres.map((lider) => (
+                <li key={lider._id}>{lider.nombre}</li>
+              ))}
+            </ul>
+            <select
+              className={styles.input}
+              value={selectedLiderId}
+              onChange={(e) => setSelectedLiderId(e.target.value)}
+            >
+              {listaLideres.map((lider) => (
+                <option key={lider._id} value={lider._id}>
+                  {lider.nombre}
+                </option>
+              ))}
+            </select>
+            <div className={styles.buttonContainer}>
+              <button
+                className={styles.objetivoButton}
+                onClick={(e) => {
+                  e.preventDefault();
+                  agregarLider(selectedLiderId);
+                }}
+              >
+                Agregar líder
+              </button>
+            </div>
+          </div>
+          {/* Estudiantes */}
+          <div>
+            <label className={styles.label}>Estudiantes</label>
+            <ul>
+              {selectedEstudiantes.map((estudiante) => (
+                <li key={estudiante._id}>{estudiante.nombre}</li>
+              ))}
+            </ul>
+            <select
+              className={styles.input}
+              value={selectedEstudianteId}
+              onChange={(e) => setSelectedEstudianteId(e.target.value)}
+            >
+              {listaEstudiantes.map((estudiante) => (
+                <option key={estudiante._id} value={estudiante._id}>
+                  {estudiante.nombre}
+                </option>
+              ))}
+            </select>
+            <div className={styles.buttonContainer}>
+              <button
+                className={styles.objetivoButton}
+                onClick={(e) => {
+                  e.preventDefault();
+                  agregarEstudiante(selectedEstudianteId);
+                }}
+              >
+                Agregar estudiante
+              </button>
+            </div>
+          </div>
+          <div>
+            <label className={styles.label}>Estado</label>
+            <select
+              className={styles.input}
+              value={estado}
+              onChange={(e) => setEstado(e.target.value)}
+            >
+              <option value="Inicial">Inicial</option>
+              <option value="Avanzado">Avanzado</option>
+              <option value="Finalizado">Finalizado</option>
+            </select>
+          </div>
+          <div className={`${styles.centerButton} ${styles.actualizar}`}>
+            <button className={styles.button}>Actualizar</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

@@ -32,7 +32,7 @@ export default function UserCard({ handleClick }) {
   if (error) return <p>Error: {error}</p>;
 
   return data.users.map((user) => (
-    <div className={styles.card}>
+    <div key={user._id} className={styles.card}>
       <div>
         <strong>Nombre: </strong>
         <span>{user.nombre}</span>

@@ -1,3 +1,40 @@
 .card {
-    border: 1px solid black;
+  border: 2px solid rgb(231, 231, 231);
+  padding: 30px 30px 0px;
+  border-radius: 0.25rem;
+}
+
+.actions {
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.editButton {
+  background-color: #2980b9;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  padding: 10px;
+  border-radius: 0.25rem;
+}
+
+.editButton:hover {
+  background-color: #13537e;
+}
+
+.deleteButton {
+  background-color: #e0841a;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  padding: 10px;
+  border-radius: 0.25rem;
+  border: none;
+}
+
+.deleteButton:hover {
+  background-color: #a07008;
 }

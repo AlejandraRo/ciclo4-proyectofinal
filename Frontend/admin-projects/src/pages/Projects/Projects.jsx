@@ -1,4 +1,4 @@
-//import styles from './Projects.module.css';
+import styles from "./Projects.module.css";
 
 import { Switch, Route } from "react-router-dom";
 import { ProjectList } from "../../components/ProjectList/ProjectList";
@@ -8,7 +8,7 @@ import { ProjectEdit } from "../../components/ProjectEdit/ProjectEdit";
 export function Projects() {
   return (
     <div>
-      <h1>Proyectos</h1>
+      <h1 className={styles.title}>Proyectos</h1>
       <Switch>
         <Route path="/projects/new">
           <ProjectForm />

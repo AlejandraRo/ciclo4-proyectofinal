@@ -77,8 +77,17 @@ export function ProjectCard({
         <strong>Fecha Final: </strong>
         <span>{fechaFinal.split("T")[0]}</span>
       </div>
-      <Link to={"/projects/edit/" + _id}>Editar</Link>
-      <button onClick={() => deleteProjectById(_id)}>Eliminar</button>
+      <div className={styles.actions}>
+        <Link className={styles.editButton} to={"/projects/edit/" + _id}>
+          Editar
+        </Link>
+        <button
+          className={styles.deleteButton}
+          onClick={() => deleteProjectById(_id)}
+        >
+          Eliminar
+        </button>
+      </div>
     </div>
   );
 }
