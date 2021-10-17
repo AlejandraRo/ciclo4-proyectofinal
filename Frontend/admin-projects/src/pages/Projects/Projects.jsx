@@ -12,6 +12,9 @@ export function Projects() {
         <Route path="/projects/new">
           <ProjectForm />
         </Route>
+        <Route path="/projects/edit/:projectId">
+          <ProjectForm />
+        </Route>
         <Route path="/projects">
           <ProjectList />
         </Route>

@@ -1,13 +1,35 @@
 //import styles from './ProjectForm.module.css';
 
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
-import { projectService } from "../../services/ProjectService";
-import { userService } from "../../services/UserService";
+// GraphQL
+import { useQuery, useMutation } from "@apollo/client";
+import { GET_STUDENTS, GET_LEADERS } from "../../graphql/Queries";
+import { ADD_PROJECT } from "../../graphql/Mutations";
 
+// Otros elementos
 import { Link } from "react-router-dom";
 
 export function ProjectForm() {
+  const { projectId } = useParams();
+  console.log(projectId);
+  // ********************************************
+  // QUERIES GRAPHQL
+  // ********************************************
+
+  const {
+    loading: leadersLoading,
+    error: leadersError,
+    data: leadersData,
+  } = useQuery(GET_LEADERS);
+
+  const {
+    loading: studentsLoading,
+    error: studentsError,
+    data: studentsData,
+  } = useQuery(GET_STUDENTS);
+
   // ********************************************
   // CONSTANTES FORMULARIO
   // ********************************************
@@ -21,10 +43,7 @@ export function ProjectForm() {
   const [fechaFinal, setFechaFinal] = useState(new Date());
   const [lideresId, setLideresId] = useState([]);
   const [estudiantesId, setEstudiantesId] = useState([]);
-  const [reporteAvance, setReporteAvance] = useState([]);
-  const [createdAt] = useState(new Date());
-  const [updatedAt] = useState(new Date());
-  const [estado, setEstado] = useState("Inicial");
+  const [estado] = useState("Inicial");
 
   // ********************************************
   // CONSTANTES AUXILIARES
@@ -47,15 +66,13 @@ export function ProjectForm() {
   // EFECTOS
   // ********************************************
 
-  // Consultar líderes disponibles
+  // Actualizar lista de líderes
   useEffect(() => {
-    const fetchLideres = async () => {
-      const response = await userService.findAllLeaders();
-      setListaLideres(response);
-      setSelectedLiderId(response[0]._id);
-    };
-    fetchLideres();
-  }, []);
+    if (!leadersLoading) {
+      setListaLideres(leadersData.leaders);
+      setSelectedLiderId(leadersData.leaders[0]._id);
+    }
+  }, [leadersLoading, leadersData, listaLideres]);
 
   // Actualizar lideres seleccionados
   useEffect(() => {
@@ -64,15 +81,13 @@ export function ProjectForm() {
     );
   }, [lideresId, listaLideres]);
 
-  // Consultar estudiantes disponibles
+  // Actualizar lista de estudiantes
   useEffect(() => {
-    const fetchEstudiantes = async () => {
-      const response = await userService.findAllStudents();
-      setListaEstudiantes(response);
-      setSelectedEstudianteId(response[0]._id);
-    };
-    fetchEstudiantes();
-  }, []);
+    if (!studentsLoading) {
+      setListaEstudiantes(studentsData.students);
+      setSelectedEstudianteId(studentsData.students[0]._id);
+    }
+  }, [studentsLoading, studentsData, listaLideres]);
 
   // Actualizar estudiantes seleccionados
   useEffect(() => {
@@ -82,6 +97,9 @@ export function ProjectForm() {
       )
     );
   }, [estudiantesId, listaEstudiantes]);
+
+  // Buscar proyecto por id
+
 
   // ********************************************
   // FUNCIONES
@@ -114,6 +132,10 @@ export function ProjectForm() {
     setEstudiantesId((estudiantesId) => [...estudiantesId, estudianteId]);
   };
 
+  // Registrar proyecto
+  const [addProject, { loading: addLoading, error: addError }] =
+    useMutation(ADD_PROJECT);
+
   // ********************************************
   // SUBMIT
   // ********************************************
@@ -144,23 +166,27 @@ export function ProjectForm() {
     const proyecto = {
       name,
       descripcion,
-      presupuesto,
+      presupuesto: parseInt(presupuesto),
       objetivo_general: objetivoGeneral,
       objetivos_especificos: objetivosEspecificos,
       fecha_inicial: fechaInicial,
       fecha_final: fechaFinal,
       lideres: lideresId,
       estudiantes: estudiantesId,
-      reporte_avance: reporteAvance,
-      createdAt,
-      updatedAt,
       estado,
     };
-    console.log(proyecto);
-    const response = await projectService.new(proyecto);
-    console.log(response);
+    addProject({ variables: proyecto });
     alert("Proyecto registrado con éxito");
   };
+
+  // ********************************************
+  // CARGA Y ERRORES
+  // ********************************************
+  if (studentsLoading || leadersLoading) return <p>Loading ...</p>;
+  if (studentsError || leadersError)
+    return <p>Error: {studentsError ? studentsError : leadersError}</p>;
+  if (addLoading) return "Submitting...";
+  if (addError) return `Submission error! ${addError.message}`;
 
   return (
     <div>

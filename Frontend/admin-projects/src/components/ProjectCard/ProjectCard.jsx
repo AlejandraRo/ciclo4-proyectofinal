@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
 import styles from "./ProjectCard.module.css";
 
 export function ProjectCard({
+  _id,
   nombre,
   estado,
   descripcion,
@@ -10,7 +12,7 @@ export function ProjectCard({
   lideres,
   estudiantes,
   fechaInicial,
-  fechaFinal
+  fechaFinal,
 }) {
   return (
     <div className={styles.card}>
@@ -59,13 +61,14 @@ export function ProjectCard({
         </ul>
       </div>
       <div>
-          <strong>Fecha inicial: </strong>
-          <span>{fechaInicial.split("T")[0]}</span>
+        <strong>Fecha inicial: </strong>
+        <span>{fechaInicial.split("T")[0]}</span>
       </div>
       <div>
-          <strong>Fecha Final: </strong>
-          <span>{fechaFinal.split("T")[0]}</span>
+        <strong>Fecha Final: </strong>
+        <span>{fechaFinal.split("T")[0]}</span>
       </div>
+      <Link to={"/projects/edit/" + _id}>Editar</Link>
     </div>
   );
 }
