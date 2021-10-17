@@ -1,0 +1,14 @@
+.containerForm {
+  padding: 0 50px 50px 50px;
+  justify-content: center;
+  width: 400px;
+  height: 400px;
+  text-align: center;
+  position: fixed;
+}
+
+input {
+  margin: 10px;
+  padding: 5px;
+  width: 200px;
+}

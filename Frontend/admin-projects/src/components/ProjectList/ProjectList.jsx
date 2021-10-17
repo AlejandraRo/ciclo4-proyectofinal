@@ -41,6 +41,7 @@ const GET_USERS = gql`
   }
 `;
 
+
 export function ProjectList() {
   // ********************************************
   // CONSTANTES
@@ -72,7 +73,11 @@ export function ProjectList() {
   //     setUsers(response);
   //   };
   //   fetchUsers();
-    setUsers(userQuery.data.users);
+    if(!loading) {
+      setUsers(userQuery.data.users);
+    }
+      
+        
   }, []);
   
   if(loading || userQuery.loading) return <p>Loading ...</p>
@@ -81,6 +86,7 @@ export function ProjectList() {
   return (
     <div>
       <Link to="/projects/new" className={styles.btnNewProject}>Nuevo proyecto</Link>
+      
       <div className={styles.list}>
         {data.projects.map((project) => (
           <ProjectCard

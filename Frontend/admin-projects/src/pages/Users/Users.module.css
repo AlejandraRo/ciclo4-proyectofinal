@@ -1,0 +1,11 @@
+.containerCard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.containerForm {
+  width: 70%;
+  display: flex;
+  margin-top: 30px;
+  justify-content: center;
+}
