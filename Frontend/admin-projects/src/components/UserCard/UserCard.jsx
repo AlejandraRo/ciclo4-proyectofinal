@@ -1,5 +1,5 @@
 import styles from './UserCard.module.css';
-
+import { useEffect } from "react";
 import { Button } from "../../components/Button/Button";
 
 import { gql, useQuery } from '@apollo/client';
@@ -15,14 +15,23 @@ const GET_USERS = gql`
 `;
 
 export default function UserCard({handleClick}) {
+  const { loading, error, data } = useQuery(GET_USERS);
+
+  useEffect(() => {
+      if(!loading) {
+        handleClick(data.users[0]._id)
+      }
+        
+          
+    }, [loading]);
 
   const getIdUser = (id) => {
     handleClick(id)
   }
 
-  const { loading, error, data } = useQuery(GET_USERS);
 
   if(loading) return <p>Loading ...</p>
+
   if(error) return <p>Error: {error}</p>
 
   return (

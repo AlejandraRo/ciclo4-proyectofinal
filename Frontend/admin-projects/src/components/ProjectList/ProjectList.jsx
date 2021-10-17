@@ -73,12 +73,12 @@ export function ProjectList() {
   //     setUsers(response);
   //   };
   //   fetchUsers();
-    if(!loading) {
+    if(!loading || !userQuery.loading) {
       setUsers(userQuery.data.users);
     }
       
         
-  }, []);
+  }, [userQuery.loading]);
   
   if(loading || userQuery.loading) return <p>Loading ...</p>
   if(error || userQuery.error) return <p>Error: {error}</p>
