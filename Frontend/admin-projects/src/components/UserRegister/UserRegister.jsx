@@ -21,10 +21,12 @@ export default function UserRegister(){
     if (loading) return 'Submitting...';
     if (error) return `Submission error! ${error.message}`;
 
+
     return (    
         <form
         onSubmit={e => {
           addUser({ variables: { rol: rol, nombre: nombre, carrera: carrera, celular: celular, fecha_ingreso: fecha_ingreso, createdAt: createdAt, updatedAt: updatedAt, username: usuario, password: password } });
+            alert("Usuario registrado con éxito");
           }}
           className={styles.containerForm}
         >
