@@ -11,7 +11,7 @@ function App() {
       {/* Barra de navagación */}
       <div>
         <Link to="/">Iniciar sesión |</Link>
-        <Link to="/signup"> Registrarse |</Link>
+        <Link to="/signup"> Registrar |</Link>
         <Link to="/projects"> Proyectos |</Link>
         <Link to="/users"> Usuarios</Link>
       </div>

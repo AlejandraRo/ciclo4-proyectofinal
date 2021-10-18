@@ -1,5 +1,41 @@
 import { gql } from "@apollo/client";
 
+export const ADD_USER = gql`
+  mutation addUser(
+    $rol: String!
+    $nombre: String!
+    $carrera: String!
+    $celular: String!
+    $fecha_ingreso: Date
+    $createdAt: Date
+    $updatedAt: Date
+    $username: String!
+    $password: String!
+  ) {
+    addUser(
+      rol: $rol
+      nombre: $nombre
+      carrera: $carrera
+      celular: $celular
+      fecha_ingreso: $fecha_ingreso
+      createdAt: $createdAt
+      updatedAt: $updatedAt
+      username: $username
+      password: $password
+    ) {
+      _id
+      rol
+      nombre
+      carrera
+      celular
+      fecha_ingreso
+      createdAt
+      updatedAt
+      username
+      password
+    }
+  }
+`;
 export const UPDATE_USER = gql`
   mutation updateUser(
     $_id: String
