@@ -26,88 +26,86 @@ export default function UserRegister(){
       window.location = '/users';
     };
 
-    return (    
-      <form
-      onSubmit={e => {
-        addUser({ variables: { rol: rol, nombre: nombre, carrera: carrera, celular: celular, fecha_ingreso: fecha_ingreso, createdAt: createdAt, updatedAt: updatedAt, username: usuario, password: password } });
-          alert("Usuario registrado con éxito");
-        }}
-        className={styles.containerForm}
-        
-      >
-        <div>
-          <strong>Rol: </strong>
-          <br/>
-          <input
-            type="text"
-            value={rol}
-            onChange={e => setRol(e.target.value)}
-            required
-          ></input>
-        </div>
-        <div>
-          <strong>Nombre: </strong>
-          <br/>
-          <input
-            type="text"
-            value={nombre}
-            onChange={e => setNombre(e.target.value)}
-            required
-          ></input>
-        </div>
-        <div>
-          <strong>Carrera: </strong>
-          <br/>
-          <input
-            type="text"
-            value={carrera}
-            onChange={e => setCarrera(e.target.value)}
-            required
-          ></input>
-        </div>
-        <div>
-          <strong>Celular: </strong>
-          <br/>
-          <input
-            type="text"
-            value={celular}
-            onChange={e => setCelular(e.target.value)}
-            required
-          ></input>
-        </div>
-        <div>
-          <strong>Creado en: </strong>
-          <br/>
-          <input
-            type="date"
-            value={fecha_ingreso}
-            onChange={e => (setFecha_ingreso(e.target.value), setCreatedAt(e.target.value), setUpdatedAt(e.target.value)) }
-            required
-          ></input>
-        </div>
-        <div>
-          <strong>Usuario: </strong>
-          <br/>
-          <input
-            type="text"
-            value={usuario}
-            onChange={e => setusuario(e.target.value)}
-            required
-          ></input>
-        </div>
-        <div>
-          <strong>Contraseña: </strong>
-          <br/>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          ></input>
-        </div>
-        
-        <Button label="Guardar" onSelect={() => redirectToUsers()}/>
-        
-      </form> 
+    return (
+      <div>
+        <h1>Registrar usuario</h1>
+        <form
+        onSubmit={e => {
+          addUser({ variables: { rol: rol, nombre: nombre, carrera: carrera, celular: celular, fecha_ingreso: fecha_ingreso, createdAt: createdAt, updatedAt: updatedAt, username: usuario, password: password } });
+            alert("Usuario registrado con éxito");
+          }}
+          className={styles.containerForm}
+          
+        >
+          <div>
+            <input
+              type="text"
+              value={rol}
+              placeholder="Rol:"
+              onChange={e => setRol(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div>
+            <input
+              type="text"
+              value={nombre}
+              placeholder="Nombre:"
+              onChange={e => setNombre(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div>
+            <input
+              type="text"
+              value={carrera}
+              placeholder="Carrera:"
+              onChange={e => setCarrera(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div>
+            <input
+              type="text"
+              value={celular}
+              placeholder="Celular:"
+              onChange={e => setCelular(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div>
+            <input
+              type="date"
+              value={fecha_ingreso}
+              placeholder="Creado en:"
+              onChange={e => (setFecha_ingreso(e.target.value), setCreatedAt(e.target.value), setUpdatedAt(e.target.value)) }
+              required
+            ></input>
+          </div>
+          <div>
+            <input
+              type="text"
+              value={usuario}
+              placeholder="Username:"
+              onChange={e => setusuario(e.target.value)}
+              required
+            ></input>
+          </div>
+          <div>
+            <input
+              type="password"
+              value={password}
+              placeholder="Password:"
+              onChange={e => setPassword(e.target.value)}
+              required
+            ></input>
+          </div>
+          
+          <Button label="Guardar" onSelect={() => redirectToUsers()}/>
+          
+        </form>
+
+      </div>
+       
     )
 }

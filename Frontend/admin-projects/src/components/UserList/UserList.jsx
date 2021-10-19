@@ -37,7 +37,6 @@ export default function UserList({userId, onEdit}) {
 
   const editUser = () => {
     onEdit(true);
-    window.location = '/users';
   }
 
   const deleteUserById = () => {

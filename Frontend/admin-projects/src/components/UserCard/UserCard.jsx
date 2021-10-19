@@ -47,8 +47,8 @@ export default function UserCard({ handleClick }) {
   return (
     <>
       <div>
-        <Button label="Todos" onSelect={() => showAll()}/>
         <Button label="Maestros" onSelect={() => showAll()}/>
+        <Button label="Todos" onSelect={() => showAll()}/>
       </div>
       {filteredUsers.map((user) => (
         <div key={user._id} className={styles.card}>

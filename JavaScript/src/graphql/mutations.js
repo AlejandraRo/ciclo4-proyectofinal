@@ -216,7 +216,7 @@ const Mutation = new GraphQLObjectType({
           type: GraphQLString,
         },
         celular: {
-          type: GraphQLInt,
+          type: GraphQLString,
         },
         fecha_ingreso: {
           type: GraphQLDate,

@@ -55,10 +55,7 @@ export default function UserForm({idForUpdate, onEdit}) {
   const [fecha_ingreso, setFecha_ingreso] = useState("");
 
   const [updateUser, { loading, error }] = useMutation(UPDATE_USER);
-
-  const { data } = useQuery(GET_USER_BY_ID, {
-    variables: { _id: idForUpdate },
-  })
+  const { data } = useQuery(GET_USER_BY_ID, { variables: { _id: idForUpdate } })
 
   useEffect(() => {
     if (data) {
@@ -68,13 +65,16 @@ export default function UserForm({idForUpdate, onEdit}) {
       setCelular(data.user.celular);
       setFecha_ingreso(data.user.fecha_ingreso)
     }
-  }, []);
+  }, [data]);
 
   if (loading) return 'Submitting...';
   if (error) return `Submission error! ${error.message}`;
 
   const editUser = () => {
     onEdit(false);
+  }
+  const redirectUser = () => {
+    window.location = '/users';
   }
 
   return (    
@@ -129,7 +129,7 @@ export default function UserForm({idForUpdate, onEdit}) {
             onChange={e => setFecha_ingreso(e.target.value)}
           ></input>
         </div>
-        <Button label="Guardar"/>
+        <Button label="Guardar" onSelect={() => redirectUser()}/>
         <Button label="Cancelar" onSelect={() => editUser()}/>
       </form>
    

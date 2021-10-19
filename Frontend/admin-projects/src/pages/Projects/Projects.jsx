@@ -7,7 +7,7 @@ import { ProjectEdit } from "../../components/ProjectEdit/ProjectEdit";
 
 export function Projects() {
   return (
-    <div>
+    <div className={styles.container}>
       <h1 className={styles.title}>Proyectos</h1>
       <Switch>
         <Route path="/projects/new">
