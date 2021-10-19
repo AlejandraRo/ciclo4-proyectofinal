@@ -36,11 +36,13 @@ export default function UserList({userId, onEdit}) {
   if(error) return <p>Error: {error}</p>
 
   const editUser = () => {
-    onEdit(true)
+    onEdit(true);
+    window.location = '/users';
   }
 
   const deleteUserById = () => {
-    deleteUser({ variables: {  _id: userId}})
+    deleteUser({ variables: {  _id: userId}});
+    window.location = '/users';
   }
   
   return (
@@ -68,6 +70,5 @@ export default function UserList({userId, onEdit}) {
         <Button label="Editar" onSelect={() => editUser()}/>
         <Button label="Eliminar" onSelect={() => deleteUserById()}/>
       </div>
-   
   )
 }

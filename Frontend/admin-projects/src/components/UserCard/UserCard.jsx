@@ -1,7 +1,6 @@
 import styles from "./UserCard.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../components/Button/Button";
-
 import { gql, useQuery } from "@apollo/client";
 
 const GET_USERS = gql`
@@ -15,6 +14,10 @@ const GET_USERS = gql`
 `;
 
 export default function UserCard({ handleClick }) {
+
+  const [showTeachers, setShowTeachers] = useState(false);
+  const [users, setUsers] = useState([]);
+
   const { loading, error, data } = useQuery(GET_USERS);
 
   useEffect(() => {
@@ -27,22 +30,40 @@ export default function UserCard({ handleClick }) {
     handleClick(id);
   };
 
+  const showAll = () => {
+    setShowTeachers(!showTeachers);
+  }
+
   if (loading) return <p>Loading ...</p>;
 
   if (error) return <p>Error: {error}</p>;
 
-  return data.users.map((user) => (
-    <div key={user._id} className={styles.card}>
+  const filteredUsers = data.users.filter((user) => {
+    if (!showTeachers) return true;
+    else if (showTeachers && user.rol === 'Director') return true;
+    else return false;
+  });
+
+  return (
+    <>
       <div>
-        <strong>Nombre: </strong>
-        <span>{user.nombre}</span>
+        <Button label="Todos" onSelect={() => showAll()}/>
+        <Button label="Maestros" onSelect={() => showAll()}/>
       </div>
-      <div>
-        <strong>Rol: </strong>
-        <span>{user.rol}</span>
-      </div>
-      <Button label="Ver" onSelect={() => getIdUser(user._id)} />
-    </div>
-  ));
-  // return "HOLA"
+      {filteredUsers.map((user) => (
+        <div key={user._id} className={styles.card}>
+          <div>
+            <strong>Nombre: </strong>
+            <span>{user.nombre}</span>
+          </div>
+          <div>
+            <strong>Rol: </strong>
+            <span>{user.rol}</span>
+          </div>
+          <Button label="Ver" onSelect={() => getIdUser(user._id)} />
+        </div>
+      ))}
+    </>
+  );
+
 }

@@ -2,9 +2,9 @@ import styles from './UserForm.module.css';
 
 import { Button } from "../../components/Button/Button";
 
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const UPDATE_USER = gql`
   mutation updateUser(
@@ -33,6 +33,19 @@ const UPDATE_USER = gql`
   }
 `;
 
+const GET_USER_BY_ID = gql`
+  query getUserById($_id: String) {
+    user(_id: $_id) {
+      _id
+      rol
+      nombre
+      carrera
+      celular
+      fecha_ingreso
+    }
+  }
+`;
+
 export default function UserForm({idForUpdate, onEdit}) {
 
   const [nombre, setNombre] = useState("");
@@ -43,11 +56,25 @@ export default function UserForm({idForUpdate, onEdit}) {
 
   const [updateUser, { loading, error }] = useMutation(UPDATE_USER);
 
+  const { data } = useQuery(GET_USER_BY_ID, {
+    variables: { _id: idForUpdate },
+  })
+
+  useEffect(() => {
+    if (data) {
+      setNombre(data.user.nombre);
+      setRol(data.user.rol);
+      setCarrera(data.user.carrera);
+      setCelular(data.user.celular);
+      setFecha_ingreso(data.user.fecha_ingreso)
+    }
+  }, []);
+
   if (loading) return 'Submitting...';
   if (error) return `Submission error! ${error.message}`;
 
   const editUser = () => {
-    onEdit(false)
+    onEdit(false);
   }
 
   return (    
@@ -97,7 +124,7 @@ export default function UserForm({idForUpdate, onEdit}) {
           <strong>Fecha de ingreso: </strong>
           <br/>
           <input
-            type="text"
+            type="date"
             value={fecha_ingreso}
             onChange={e => setFecha_ingreso(e.target.value)}
           ></input>
